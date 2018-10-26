@@ -38,3 +38,20 @@ class UserModelViewSet(viewsets.ModelViewSet):
         return Response(
             notebooks_serialize.data
         )
+
+    @action(methods=['GET'], detail=True, url_path='all-notes-from')
+    # /usuario/all-notebooks/ devuelve todos los CUADERNOS del usuario
+    def all_notebooks(self, request, pk=None):
+        usuario = self.get_object()
+        usuario_serialize = serializers.UserSerializer(usuario)
+        try: 
+            print("------------------------------------------------" +request.query_params['id'])
+            friend = User.objects.get(pk= request.query_params['id'])
+            friend_serializer = serializers.UserSerializer(friend)
+            return Response(
+                {"usuario" : usuario_serialize, "amigo":  friend_serializer}
+            )
+        except  User.DoesNotExist:
+            return Response({ "error": "friend not found" })
+        
+        
