@@ -29,6 +29,11 @@ router.register(
     r'cuaderno',
     cuaderno_views.CuadernoModelViewSet
 )
+#   Usuario
+router.register(
+    r'usuario',
+    cuaderno_views.UserModelViewSet
+)
 #   Nota
 router.register(
     r'nota',

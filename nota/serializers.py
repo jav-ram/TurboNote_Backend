@@ -1,16 +1,16 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework import serializers
 from . import models
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        exclude = ['password']
 
 class NotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Nota
         exclude = []
+
+class NotaItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Nota
+        exclude = ['contenido', 'pertenece']
 
 class AmistadSerializer(serializers.ModelSerializer):
     class Meta:
