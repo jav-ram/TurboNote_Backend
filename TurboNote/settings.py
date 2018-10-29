@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'TurboNote.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'noteapp',
+        'NAME': 'd5i0ke9krnl871',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'PASSWORD': 'b97dc0dec721fb94b9653ed6d69ded4ebd17bdfa548e2b6103c9d63c8dd7aedf',
+        'HOST': 'ec2-54-225-110-152.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
