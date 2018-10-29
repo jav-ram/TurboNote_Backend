@@ -44,14 +44,22 @@ class UserModelViewSet(viewsets.ModelViewSet):
     def all_notebooks(self, request, pk=None):
         usuario = self.get_object()
         usuario_serialize = serializers.UserSerializer(usuario)
-        try: 
-            print("------------------------------------------------" +request.query_params['id'])
-            friend = User.objects.get(pk= request.query_params['id'])
-            friend_serializer = serializers.UserSerializer(friend)
-            return Response(
-                {"usuario" : usuario_serialize, "amigo":  friend_serializer}
-            )
-        except  User.DoesNotExist:
-            return Response({ "error": "friend not found" })
+
+        friend = User.objects.get(pk= request.query_params['id'])
+        friend_serializer = serializers.UserSerializer(friend)
+
+        # verificar la amistad falta
+        if (modelNota.Amistad.objects.filter(amigo1= usuario, amigo2= friend).count() > 0) or (modelNota.Amistad.objects.filter(amigo1= friend, amigo2= usuario).count() > 0):
+            # son amigos 
+            # get todos las notas
+            notas = modelNota.Compartido.objects.filter()
+        else:
+            return Response( {'error': "no son amigos"} )
+
+
+        return Response(
+            {"usuario" : usuario_serialize.data, "amigo":  friend_serializer.data}
+        )
+    
         
         
