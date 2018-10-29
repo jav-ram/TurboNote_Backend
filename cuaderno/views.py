@@ -7,7 +7,6 @@ from . import models, serializers
 from nota import models as modelNota, serializers as NotaSerializer
 # Create your views here.
 
-
 class CuadernoModelViewSet(viewsets.ModelViewSet):
     # /cuadeno/ devuelve todo 
     queryset = models.Cuaderno.objects.all()
@@ -41,7 +40,7 @@ class UserModelViewSet(viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=True, url_path='all-notes-from')
     # /usuario/all-notebooks/ devuelve todos los CUADERNOS del usuario
-    def all_notebooks(self, request, pk=None):
+    def all_notebooks_from(self, request, pk=None):
         usuario = self.get_object()
         usuario_serialize = serializers.UserSerializer(usuario)
 
@@ -52,7 +51,11 @@ class UserModelViewSet(viewsets.ModelViewSet):
         if (modelNota.Amistad.objects.filter(amigo1= usuario, amigo2= friend).count() > 0) or (modelNota.Amistad.objects.filter(amigo1= friend, amigo2= usuario).count() > 0):
             # son amigos 
             # get todos las notas
-            notas = modelNota.Compartido.objects.filter()
+            shared = modelNota.Compartido.objects.filter(dueno= friend)
+            sharedSerialize = NotaSerializer.CompartidoSerializer(shared, many= True)
+            notas = modelNota.Nota.objects.filter(compartido= shared);
+            print(notas)
+            return Response( sharedSerialize.data )
         else:
             return Response( {'error': "no son amigos"} )
 

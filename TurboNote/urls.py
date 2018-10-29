@@ -46,7 +46,7 @@ router.register(
 )
 #   Compartido
 router.register(
-    r'amistad',
+    r'compartido',
     notas_views.CompartidoModelViewSet
 )
 
