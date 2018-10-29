@@ -51,11 +51,15 @@ class UserModelViewSet(viewsets.ModelViewSet):
         if (modelNota.Amistad.objects.filter(amigo1= usuario, amigo2= friend).count() > 0) or (modelNota.Amistad.objects.filter(amigo1= friend, amigo2= usuario).count() > 0):
             # son amigos 
             # get todos las notas
-            shared = modelNota.Compartido.objects.filter(dueno= friend)
-            sharedSerialize = NotaSerializer.CompartidoSerializer(shared, many= True)
-            notas = modelNota.Nota.objects.filter(compartido= shared);
-            print(notas)
-            return Response( sharedSerialize.data )
+            shares = modelNota.Compartido.objects.filter(dueno= friend)
+            notes = []
+
+            for share in shares:
+                id = share.pk
+                notes.append(modelNota.Nota.objects.get(pk= id))
+
+            notes_serialize = NotaSerializer.NotaSerializer(notes, many= True)
+            return Response( notes_serialize.data )
         else:
             return Response( {'error': "no son amigos"} )
 
