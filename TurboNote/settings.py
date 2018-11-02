@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'guardian',
 
     'cuaderno',
@@ -64,7 +65,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Authentification
 AUTHENTICATION_BACKENDS = (
@@ -73,6 +79,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ROOT_URLCONF = 'TurboNote.urls'
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'cuaderno.utils.jwt_response_payload_handler', #app_name is name of the app which contains utils.py
+}
 
 TEMPLATES = [
     {
