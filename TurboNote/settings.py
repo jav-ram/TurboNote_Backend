@@ -109,10 +109,10 @@ WSGI_APPLICATION = 'TurboNote.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd5i0ke9krnl871',
-        'USER': 'mgkztphgzhnorf',
-        'PASSWORD': 'b97dc0dec721fb94b9653ed6d69ded4ebd17bdfa548e2b6103c9d63c8dd7aedf',
-        'HOST': 'ec2-54-225-110-152.compute-1.amazonaws.com',
+        'NAME': 'd9i2ih9hpbe6h6',
+        'USER': 'whgzjszgghjwxx',
+        'PASSWORD': 'ce477b96f5817d2948a00b9a4da4d3db10e88efcff6fe70f74de543341d9924d',
+        'HOST': 'ec2-23-21-192-179.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }

@@ -1,20 +1,20 @@
 from django.db import models
-from cuaderno.models import Cuaderno
+from cuaderno.models import Notebook
 from django.contrib.auth.models import User
 
 # Create your models here.
 #Nota
-class Nota(models.Model):
-    titulo= models.CharField(max_length= 50)
-    contenido= models.TextField(null=True, blank=True)
-    pertenece= models.ForeignKey(Cuaderno, null= True, blank= True, on_delete= models.CASCADE)
+class Note(models.Model):
+    title = models.CharField(max_length= 50)
+    body = models.TextField(null=True, blank=True)
+    owner = models.ForeignKey(Notebook, null= True, blank= True, on_delete= models.CASCADE)
 
 #Amistad
-class Amistad(models.Model):
-    amigo1= models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= 'friends')
-    amigo2= models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= '_unused_friend_relation')
+class Friendship(models.Model):
+    friend1 = models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= 'friends')
+    friend2 = models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= '_unused_friend_relation')
 
-class Compartido(models.Model):
-    dueno= models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= 'owner')
-    compartido= models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= 'share_to')
-    nota= models.ForeignKey(Nota, null= True, blank= True, on_delete= models.CASCADE, related_name= 'note')
+class Shared(models.Model):
+    owner = models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= 'owner')
+    shared_to = models.ForeignKey(User, null= True, blank= True, on_delete= models.CASCADE, related_name= 'share_to')
+    note = models.ForeignKey(Note, null= True, blank= True, on_delete= models.CASCADE, related_name= 'note')

@@ -2,9 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from . import models
 
-class CuadernoSerializer(serializers.ModelSerializer):
+class NotebookSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Cuaderno
+        model = models.Notebook
         exclude = []
 
 class UserSerializer(serializers.ModelSerializer):

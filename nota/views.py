@@ -3,14 +3,14 @@ from rest_framework import viewsets
 from . import models, serializers
 
 # Create your views here.
-class NotaModelViewSet(viewsets.ModelViewSet):
-    queryset = models.Nota.objects.all()
-    serializer_class = serializers.NotaSerializer
+class NoteModelViewSet(viewsets.ModelViewSet):
+    queryset = models.Note.objects.all()
+    serializer_class = serializers.NoteSerializer
 
-class AmistadModelViewSet(viewsets.ModelViewSet):
-    queryset = models.Amistad.objects.all()
-    serializer_class = serializers.AmistadSerializer
+class FriendshipModelViewSet(viewsets.ModelViewSet):
+    queryset = models.Friendship.objects.all()
+    serializer_class = serializers.FriendSerializer
 
-class CompartidoModelViewSet(viewsets.ModelViewSet):
-    queryset = models.Compartido.objects.all()
-    serializer_class = serializers.CompartidoSerializer
+class SharedModelViewSet(viewsets.ModelViewSet):
+    queryset = models.Shared.objects.all()
+    serializer_class = serializers.SharedSerializer

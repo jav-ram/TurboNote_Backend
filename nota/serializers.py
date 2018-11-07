@@ -2,22 +2,22 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from . import models
 
-class NotaSerializer(serializers.ModelSerializer):
+class NoteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Nota
+        model = models.Note
         exclude = []
 
-class NotaItemSerializer(serializers.ModelSerializer):
+class NoteItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Nota
-        exclude = ['contenido', 'pertenece']
+        model = models.Note
+        exclude = ['body', 'owner']
 
-class AmistadSerializer(serializers.ModelSerializer):
+class FriendSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Amistad
+        model = models.Friendship
         exclude = []
 
-class CompartidoSerializer(serializers.ModelSerializer):
+class SharedSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Compartido
+        model = models.Shared
         exclude = []

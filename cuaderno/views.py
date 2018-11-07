@@ -7,17 +7,17 @@ from . import models, serializers
 from nota import models as modelNota, serializers as NotaSerializer
 # Create your views here.
 
-class CuadernoModelViewSet(viewsets.ModelViewSet):
-    # /cuadeno/ devuelve todo 
-    queryset = models.Cuaderno.objects.all()
-    serializer_class = serializers.CuadernoSerializer
+class NotebookModelViewSet(viewsets.ModelViewSet):
+    # /cuaderno/ devuelve todo 
+    queryset = models.Notebook.objects.all()
+    serializer_class = serializers.NotebookSerializer
 
     @action(methods=['GET'], detail=True, url_path='all-notes')
     # /cuaderno/all-notes/ devuelve todas las NOTAS dentro de del cuaderno
     def all_notes(self, request, pk=None):
-        cuaderno = self.get_object()
-        notes = modelNota.Nota.objects.filter(pertenece = cuaderno.pk)
-        notes_serialize = NotaSerializer.NotaItemSerializer(notes, many=True)
+        notebook = self.get_object()
+        notes = modelNota.Note.objects.filter(pertenece = notebook.pk)
+        notes_serialize = NotaSerializer.NoteItemSerializer(notes, many=True)
 
         return Response(
             notes_serialize.data
@@ -31,8 +31,8 @@ class UserModelViewSet(viewsets.ModelViewSet):
     # /usuario/all-notebooks/ devuelve todos los CUADERNOS del usuario
     def all_notebooks(self, request, pk=None):
         usuario = self.get_object()
-        notebooks = models.Cuaderno.objects.filter(owner = usuario.pk)
-        notebooks_serialize = serializers.CuadernoSerializer(notebooks, many= True)
+        notebooks = models.Notebook.objects.filter(owner = usuario.pk)
+        notebooks_serialize = serializers.NotebookSerializer(notebooks, many= True)
 
         return Response(
             notebooks_serialize.data
@@ -44,21 +44,21 @@ class UserModelViewSet(viewsets.ModelViewSet):
         usuario = self.get_object()
         usuario_serialize = serializers.UserSerializer(usuario)
 
-        friend = User.objects.get(pk= request.query_params['id'])
+        friend = User.objects.get(pk=request.query_params['id'])
         friend_serializer = serializers.UserSerializer(friend)
 
         # verificar la amistad falta
-        if (modelNota.Amistad.objects.filter(amigo1= usuario, amigo2= friend).count() > 0) or (modelNota.Amistad.objects.filter(amigo1= friend, amigo2= usuario).count() > 0):
+        if (modelNota.Friendship.objects.filter(friend1=usuario, friend2=friend).count() > 0) or (modelNota.Friendship.objects.filter(friend1=friend, friend=usuario).count() > 0):
             # son amigos 
             # get todos las notas
-            shares = modelNota.Compartido.objects.filter(dueno= friend)
+            shares = modelNota.Shared.objects.filter(owner=friend)
             notes = []
 
             for share in shares:
-                id = share.pk
-                notes.append(modelNota.Nota.objects.get(pk= id))
+                pk_id = share.pk
+                notes.append(modelNota.Note.objects.get(pk=pk_id))
 
-            notes_serialize = NotaSerializer.NotaSerializer(notes, many= True)
+            notes_serialize = NotaSerializer.NoteSerializer(notes, many=True)
             return Response( notes_serialize.data )
         else:
             return Response( {'error': "no son amigos"} )

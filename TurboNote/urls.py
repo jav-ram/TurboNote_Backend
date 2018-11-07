@@ -29,35 +29,35 @@ router = DefaultRouter()
 # Client
 #   Cuaderno
 router.register(
-    r'cuaderno',
-    cuaderno_views.CuadernoModelViewSet
+    r'notebook',
+    cuaderno_views.NotebookModelViewSet
 )
 #   Usuario
 router.register(
-    r'usuario',
+    r'user',
     cuaderno_views.UserModelViewSet
 )
 #   Nota
 router.register(
-    r'nota',
-    notas_views.NotaModelViewSet
+    r'note',
+    notas_views.NoteModelViewSet
 )
 #   Amistad
 router.register(
-    r'amistad',
-    notas_views.AmistadModelViewSet
+    r'friendship',
+    notas_views.FriendshipModelViewSet
 )
 #   Compartido
 router.register(
-    r'compartido',
-    notas_views.CompartidoModelViewSet
+    r'shared',
+    notas_views.SharedModelViewSet
 )
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth-jwt/', obtain_jwt_token),
-    path('auth-jwt-refresh/', refresh_jwt_token),
-    path('auth-jwt-verify/', verify_jwt_token),
+    path('api/v1/auth-jwt/', obtain_jwt_token),
+    path('api/v1/auth-jwt-refresh/', refresh_jwt_token),
+    path('api/v1/auth-jwt-verify/', verify_jwt_token),
     path('api/v1/', include(router.urls))
 ]
