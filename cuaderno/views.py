@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from django.contrib.auth.models import User
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -28,7 +28,7 @@ class UserPermissions(BasePermission):
     def has_permission(self, request, view):
         if view.action == 'create':
             return True
-        return False
+        return request.user and request.user.is_authenticated
 
 class UserModelViewSet(viewsets.ModelViewSet):
     permission_classes = (UserPermissions, )
