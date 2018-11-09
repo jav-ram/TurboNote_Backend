@@ -10,6 +10,7 @@ from nota import models as modelNota, serializers as NotaSerializer
 
 class NotebookModelViewSet(viewsets.ModelViewSet):
     # /cuaderno/ devuelve todo 
+    permission_classes = (IsAuthenticated, )
     queryset = models.Notebook.objects.all()
     serializer_class = serializers.NotebookSerializer
 
@@ -17,7 +18,7 @@ class NotebookModelViewSet(viewsets.ModelViewSet):
     # /cuaderno/all-notes/ devuelve todas las NOTAS dentro de del cuaderno
     def all_notes(self, request, pk=None):
         notebook = self.get_object()
-        notes = modelNota.Note.objects.filter(pertenece = notebook.pk)
+        notes = modelNota.Note.objects.filter(owner = notebook.pk)
         notes_serialize = NotaSerializer.NoteItemSerializer(notes, many=True)
 
         return Response(
