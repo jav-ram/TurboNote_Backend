@@ -4,13 +4,14 @@ from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from cuaderno.permissions import IsOwnerOrReadOnly
 from . import models, serializers
 from nota import models as modelNota, serializers as NotaSerializer
 # Create your views here.
 
 class NotebookModelViewSet(viewsets.ModelViewSet):
     # /cuaderno/ devuelve todo 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsOwnerOrReadOnly)
     queryset = models.Notebook.objects.all()
     serializer_class = serializers.NotebookSerializer
 
@@ -57,7 +58,7 @@ class UserModelViewSet(viewsets.ModelViewSet):
         friend_serializer = serializers.UserSerializer(friend)
 
         # verificar la amistad falta
-        if (modelNota.Friendship.objects.filter(friend1=usuario, friend2=friend).count() > 0) or (modelNota.Friendship.objects.filter(friend1=friend, friend=usuario).count() > 0):
+        if (modelNota.Friendship.objects.filter(friend1=usuario, friend2=friend).count() > 0) or (modelNota.Friendship.objects.filter(friend1=friend, friend2=usuario).count() > 0):
             # son amigos 
             # get todos las notas
             shares = modelNota.Shared.objects.filter(owner=friend)
