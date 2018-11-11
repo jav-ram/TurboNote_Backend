@@ -11,7 +11,7 @@ from nota import models as modelNota, serializers as NotaSerializer
 
 class NotebookModelViewSet(viewsets.ModelViewSet):
     # /cuaderno/ devuelve todo 
-    permission_classes = (IsOwnerOrReadOnly)
+    permission_classes = (IsOwnerOrReadOnly, )
     queryset = models.Notebook.objects.all()
     serializer_class = serializers.NotebookSerializer
 
