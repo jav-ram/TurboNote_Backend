@@ -6,7 +6,7 @@ from . import models, serializers
 class NoteModelViewSet(viewsets.ModelViewSet):
     queryset = models.Note.objects.all()
     serializer_class = serializers.NoteSerializer
-    permission_classes = (IsOwnerOrShared)
+    permission_classes = (IsOwnerOrShared, )
 
 class FriendshipModelViewSet(viewsets.ModelViewSet):
     queryset = models.Friendship.objects.all()
