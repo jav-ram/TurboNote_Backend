@@ -20,7 +20,7 @@ class NotebookModelViewSet(viewsets.ModelViewSet):
     def all_notes(self, request, pk=None):
         notebook = self.get_object()
         notes = modelNota.Note.objects.filter(owner = notebook.pk)
-        notes_serialize = NotaSerializer.NoteItemSerializer(notes, many=True)
+        notes_serialize = NotaSerializer.NoteSerializer(notes, many=True)
 
         return Response(
             notes_serialize.data
