@@ -10,13 +10,13 @@ from nota import models as modelNota, serializers as NotaSerializer
 # Create your views here.
 
 class NotebookModelViewSet(viewsets.ModelViewSet):
-    # /cuaderno/ devuelve todo 
+    # /notebook/ devuelve todo 
     permission_classes = (IsOwnerOrReadOnly, )
     queryset = models.Notebook.objects.all()
     serializer_class = serializers.NotebookSerializer
 
     @action(methods=['GET'], detail=True, url_path='all-notes')
-    # /cuaderno/all-notes/ devuelve todas las NOTAS dentro de del cuaderno
+    # /notebook/all-notes/ devuelve todas las NOTAS dentro de del cuaderno
     def all_notes(self, request, pk=None):
         notebook = self.get_object()
         notes = modelNota.Note.objects.filter(owner = notebook.pk)
@@ -38,7 +38,7 @@ class UserModelViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
 
     @action(methods=['GET'], detail=True, url_path='all-notebooks')
-    # /usuario/all-notebooks/ devuelve todos los CUADERNOS del usuario
+    # /user/all-notebooks/ devuelve todos los CUADERNOS del usuario
     def all_notebooks(self, request, pk=None):
         usuario = self.get_object()
         notebooks = models.Notebook.objects.filter(owner = usuario.pk)
@@ -48,8 +48,19 @@ class UserModelViewSet(viewsets.ModelViewSet):
             notebooks_serialize.data
         )
 
+    @action(methods=['GET'], detail=True, url_path='all-notes')
+    # /user/all-notes/ devuelve todos las NOTAS del usuario
+    def all_notes(self, request, pk=None):
+        usuario = self.get_object()
+        notes =  modelNota.Note.objects.filter(owner__owner=usuario)
+        notes_serialize = NotaSerializer.NoteSerializer(notes, many= True)
+
+        return Response(
+            notes_serialize.data
+        )
+
     @action(methods=['GET'], detail=True, url_path='all-notes-from')
-    # /usuario/all-notebooks/ devuelve todos los CUADERNOS del usuario
+    # /user/all-notebooks/ devuelve todos los CUADERNOS del amigo
     def all_notebooks_from(self, request, pk=None):
         usuario = self.get_object()
         usuario_serialize = serializers.UserSerializer(usuario)
