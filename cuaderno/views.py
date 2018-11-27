@@ -66,7 +66,7 @@ class UserModelViewSet(viewsets.ModelViewSet):
 
     @action(methods=['GET'], detail=True, url_path='friends')
     # /user/friends/ devuelve todos las AMIGOS del usuario
-    def all_notes(self, request, pk=None):
+    def friends(self, request, pk=None):
         user = self.get_object()
         friendships = modelNota.Friendship.objects.filter(
             Q (friend1=user.pk) |
@@ -88,8 +88,8 @@ class UserModelViewSet(viewsets.ModelViewSet):
         )
 
     @action(methods=['GET'], detail=True, url_path='all-notes-from')
-    # /user/all-notebooks/ devuelve todos los CUADERNOS del amigo
-    def all_notebooks_from(self, request, pk=None):
+    # /user/all-notes-from/ devuelve todos los CUADERNOS del amigo
+    def all_notes_from(self, request, pk=None):
         usuario = self.get_object()
         usuario_serialize = serializers.UserSerializer(usuario)
 
