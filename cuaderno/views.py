@@ -102,9 +102,12 @@ class UserModelViewSet(viewsets.ModelViewSet):
             # get todos las notas
             shares = modelNota.Shared.objects.filter(owner=friend)
             notes = []
+            print("------------------------------------------")
+            print(shares)
 
             for share in shares:
-                pk_id = share.pk
+                pk_id = share.note.pk
+                note = modelNota.Note.objects.get(pk=pk_id)
                 notes.append(modelNota.Note.objects.get(pk=pk_id))
 
             notes_serialize = NotaSerializer.NoteSerializer(notes, many=True)
