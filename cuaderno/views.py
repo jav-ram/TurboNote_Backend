@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission, IsAuthenticated
 from rest_framework.decorators import action
@@ -117,4 +117,18 @@ class UserModelViewSet(viewsets.ModelViewSet):
 
         return Response(
             {"usuario": usuario_serialize.data, "amigo":  friend_serializer.data}
+        )
+    
+    @action(methods=['POST'], detail=True, url_path='add-friendship')
+    def add_friendship(self, request, pk):
+        user = self.get_object()
+        try:
+            user2 = User.objects.get(username=request.data.get('username', None))
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        friendship = modelNota.Friendship(friend1=user, friend2=user2)
+        friendship.save()
+        friend_serialize = NotaSerializer.FriendSerializer(friendship) 
+        return Response(
+            friend_serialize.data
         )

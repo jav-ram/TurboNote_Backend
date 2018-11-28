@@ -82,7 +82,7 @@ AUTHENTICATION_BACKENDS = (
 ROOT_URLCONF = 'TurboNote.urls'
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
     'JWT_ALLOW_REFRESH': True,
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'cuaderno.utils.jwt_response_payload_handler', #app_name is name of the app which contains utils.py
 }
